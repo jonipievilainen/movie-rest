@@ -9,14 +9,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  NODE_ENV: ${{ vars.NODE_ENV }}
-
-        
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: ${{ vars.NODE_ENV }}
 
     strategy:
       matrix:
@@ -30,10 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: |
-        touch .env
-        echo NODE_ENV=${{ env.NODE_ENV }} >> .env
+    - run: echo "My APP_ID value is ${{ vars.NODE_ENV }}"
     - run: npm install
-    - run: cat .env
     - run: npm start
     - run: mocha test.js
