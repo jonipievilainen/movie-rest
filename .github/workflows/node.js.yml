@@ -34,6 +34,6 @@ jobs:
         touch .env
         echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
     - run: npm install
-    - run: echo "$NODE_ENV"
+    - run: cat .env
     - run: npm start
     - run: mocha test.js
