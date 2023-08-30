@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 env:
-  NODE_ENV: ${{ secrets.NODE_ENV }}
+  NODE_ENV: "test
 
         
 jobs:
