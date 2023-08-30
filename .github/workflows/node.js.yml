@@ -28,8 +28,8 @@ jobs:
         cache: 'npm'
     - run: |
         touch .env
-        echo NODE_ENV=${{ vars.NODE_ENV }} >> .env
+        echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
     - run: npm install
-    - run: echo $NODE_ENV
+    - run: echo "$NODE_ENV"
     - run: npm start
     - run: mocha test.js
