@@ -5,6 +5,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const Movie = require('./models/Movie');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const API_KEY = process.env.API_KEY || 'defaultKey';
 const Sequelize = require('sequelize');
 
 const swaggerOptions = {
@@ -27,6 +28,8 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsDoc(swaggerOptions);
 
+// Middleware
+app.use(express.json());
 
 /**
  * @swagger
@@ -101,6 +104,8 @@ app.get('/movies/:name', async (req, res) => {
  *         description: Successful response with the added movie
  *       400:
  *         description: Invalid request body
+ *       401:
+ *         description: Unauthorized
  *       409:
  *         description: Movie already exists
  *       500:
@@ -162,6 +167,13 @@ app.get('/movies/:name', async (req, res) => {
  */
 app.post('/movies', async (req, res) => {
   const movie = req.body;
+  const authorizationHeader = req.headers.authorization;
+
+  if (authorizationHeader !== API_KEY) {
+    return res.status(401).json({
+      error: 'Unauthorized'
+    });
+  }
   
   try {
     const movieExists = await Movie.findOne({
