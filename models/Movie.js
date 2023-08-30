@@ -8,7 +8,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false // Varmista yhteyden toimivuus AWS RDS:ään
+      rejectUnauthorized: false
     }
   }
 });
@@ -24,5 +24,5 @@ const Movie = sequelize.define('Movie', {
   synopsis: Sequelize.TEXT
 });
 
-sequelize.sync(); // Luo tietokantataulut
+sequelize.sync();
 module.exports = Movie;

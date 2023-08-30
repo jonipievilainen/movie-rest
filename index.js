@@ -2,15 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-const Movie = require('./models/Movie'); // Lisää tämä
-const fs = require('fs');
-
-
+const Movie = require('./models/Movie');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const Sequelize = require('sequelize');
 
-// Swagger-konfiguraatio
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
@@ -26,15 +22,12 @@ const swaggerOptions = {
       }
     },
   },
-  apis: [__filename] // Käytämme tämän tiedoston reittejä Swagger-dokumentaatiossa
+  apis: [__filename]
 };
 
 const swaggerSpec = swaggerJsDoc(swaggerOptions);
 
-// Middleware
-app.use(express.json());
 
-// Reitit
 /**
  * @swagger
  * /movies:
@@ -55,7 +48,7 @@ app.get('/movies', async (req, res) => {
  * @swagger
  * /movies/{name}:
  *   get:
- *     summary: Get a movie by name
+ *     summary: Get a movies by name
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -67,13 +60,13 @@ app.get('/movies', async (req, res) => {
  *         description: Name of the movie
  *     responses:
  *       200:
- *         description: Successful response with a movie
+ *         description: Successful response with a movies
  *       404:
  *         description: Movie not found
  */
 app.get('/movies/:name', async (req, res) => {
   const movieName = req.params.name;
-  const movie = await Movie.findOne({
+  const movie = await Movie.findAll({
     where: {
       name: {
         [Sequelize.Op.iLike]: `%${movieName}%`
@@ -167,7 +160,6 @@ app.get('/movies/:name', async (req, res) => {
  *       firstName: "Aki"
  *       lastName: "Kaurismaki"
  */
-
 app.post('/movies', async (req, res) => {
   const movie = req.body;
   
@@ -193,11 +185,7 @@ app.post('/movies', async (req, res) => {
   }
 });
 
-
-
-// ... Muita reittejä ...
-
-// Swagger UI reitti
+// Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(PORT, () => {

@@ -8,7 +8,7 @@ const options = {
       description: 'API for managing movies'
     }
   },
-  apis: ['index.js'] // Tiedosto, jossa Express-reitit on määritelty
+  apis: ['index.js']
 };
 
 const swaggerSpec = swaggerJsDoc(options);
