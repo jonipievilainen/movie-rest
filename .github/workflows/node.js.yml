@@ -9,6 +9,16 @@ on:
   pull_request:
     branches: [ "main" ]
     
+env:
+        API_URL: $API_URL
+        DB_DIALECT: $DB_DIALECT
+        DB_HOST: $DB_HOST
+        DB_NAME: $DB_NAME
+        DB_PASSWORD: $.DB_PASSWORD
+        DB_PORT: $DB_PORT
+        DB_USER: $DB_USER
+        NODE_ENV: $NODE_ENV
+        
 jobs:
   build:
 
@@ -22,15 +32,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
-      env:
-        API_URL: $API_URL
-        DB_DIALECT: $DB_DIALECT
-        DB_HOST: $DB_HOST
-        DB_NAME: $DB_NAME
-        DB_PASSWORD: $.DB_PASSWORD
-        DB_PORT: $DB_PORT
-        DB_USER: $DB_USER
-        NODE_ENV: $NODE_ENV
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
