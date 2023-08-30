@@ -37,6 +37,9 @@ npm start
 ```
 6. The application will start at http://localhost:3000
 
+## Local Development Requirements
+For local development, make sure you have PostgreSQL installed on your machine. If you haven't installed it yet, you can download it from [here](https://www.postgresql.org/download/).
+
 ## Usage
 You can use the application through a browser or API tools (e.g., Postman) by sending HTTP requests to http://localhost:3000/movies.
 
