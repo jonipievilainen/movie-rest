@@ -15,7 +15,7 @@ import {writeFile} from 'fs/promises';
     // Gather results and report from Lighthouse
     const results = await lighthouse('https://example.com', {
         port: chrome.port,
-        output: 'html'
+        output: 'json'
     }, {
         extends: 'lighthouse:default',
         settings: {
@@ -23,8 +23,7 @@ import {writeFile} from 'fs/promises';
         }
     });
 
-    // Save report to file
-    await writeFile('./lighthouse-report.html', results.report);
+    console.log(results.report)
 
     // Kill Chrome
     await chrome.kill();
