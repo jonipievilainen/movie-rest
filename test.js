@@ -1,19 +1,31 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+// Main lighthouse runner / fn
+import lighthouse from 'lighthouse';
 
-chai.use(chaiHttp);
+// Required for launching chrome instance
+import * as chromeLauncher from 'chrome-launcher';
 
-const expect = chai.expect;
-const Movie = require('./models/Movie');
 
-describe('Database Connection', () => {
-  it('should get all movies', async () => {
-    try {
-      const movies = await Movie.findAll();
-      expect(movies).to.be.an('array');
-    } catch (error) {
-      console.error('Database connection error:', error.message);
-      throw error;
-    }
-  }).timeout(5000);
-});
+// So we can save output
+import {writeFile} from 'fs/promises';
+
+(async () => {
+    // Launch instance of Chrome
+    const chrome = await chromeLauncher.launch();
+
+    // Gather results and report from Lighthouse
+    const results = await lighthouse('https://example.com', {
+        port: chrome.port,
+        output: 'html'
+    }, {
+        extends: 'lighthouse:default',
+        settings: {
+            onlyCategories: ['performance']
+        }
+    });
+
+    // Save report to file
+    await writeFile('./lighthouse-report.html', results.report);
+
+    // Kill Chrome
+    await chrome.kill();
+})();
