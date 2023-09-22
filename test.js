@@ -29,9 +29,6 @@ describe('lighthouse test', () => {
             console.log('Report is done for', results.lhr.finalDisplayedUrl);
             console.log('Performance score was', results.lhr.categories.performance.score * 100);
 
-            // print result as mocha test output
-            console.log(JSON.stringify(results.lhr, null, 2));
-
             // Kill Chrome
             await chrome.kill();
         } catch (error) {
